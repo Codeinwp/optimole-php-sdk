@@ -1,0 +1,35 @@
+{
+    "name": "codeinwp/optimole-sdk",
+    "description": "SDK for Optimole cloud-based image optimization service",
+    "homepage": "https://optimole.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Optimole Team",
+            "email": "friends@optimole.com",
+            "homepage": "https://optimole.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Codeinwp/optimole-sdk/issues",
+        "source": "https://github.com/Codeinwp/optimole-sdk"
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Optimole\\Sdk\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Optimole\\Sdk\\Tests\\": "tests"
+        }
+    }
+}
