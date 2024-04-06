@@ -1,0 +1,24 @@
+name: Continuous Integration
+on: push
+
+jobs:
+  code-quality:
+    name: Run code quality checks on PHP 7.4
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dependency-version: ['', '--prefer-lowest']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Install dependencies
+        run: composer update ${{ matrix.dependency-version }} --no-ansi --no-interaction --no-scripts --no-suggest --prefer-dist
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyze
+      - name: Run PHP CS Fixer
+        run: vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff
