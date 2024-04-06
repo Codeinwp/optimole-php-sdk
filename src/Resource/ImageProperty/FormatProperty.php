@@ -27,7 +27,7 @@ class FormatProperty implements PropertyInterface
      */
     public function __construct(string $format)
     {
-        $this->format = $format;
+        $this->format = strtolower($format);
     }
 
     /**

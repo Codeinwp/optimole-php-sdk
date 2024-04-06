@@ -25,7 +25,7 @@ final class Optimole
     /**
      * The Optimole SDK factory.
      */
-    private static $instance;
+    private static ?self $instance;
 
     /**
      * The Optimole API key.
@@ -53,7 +53,7 @@ final class Optimole
     {
         $method = sprintf('create%s', ucfirst($name));
 
-        if (null === self::$instance) {
+        if (!self::$instance instanceof self) {
             throw new \RuntimeException('Please initialize the Optimole SDK first.');
         } elseif (!method_exists(self::class, $method)) {
             throw new \BadMethodCallException(sprintf('No factory method for "%s" exists.', $name));

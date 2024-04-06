@@ -15,11 +15,13 @@
         "source": "https://github.com/Codeinwp/optimole-sdk"
     },
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "symfony/polyfill-php80": "^1.29"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
-        "phpstan/phpstan": "^1.0"
+        "phpstan/phpstan": "^1.0",
+        "phpunit/phpunit": "^9.6"
     },
     "config": {
         "optimize-autoloader": true,

@@ -37,10 +37,6 @@ abstract class AbstractResource
      */
     public function __construct(string $domain, string $source, string $cacheBuster = '')
     {
-        if (!filter_var($domain, FILTER_VALIDATE_DOMAIN)) {
-            throw new \InvalidArgumentException('The domain must be a valid domain.');
-        }
-
         $this->domain = $domain;
         $this->properties = [];
         $this->source = $source;
@@ -51,7 +47,7 @@ abstract class AbstractResource
     }
 
     /**
-     * Get the URL of the optimized resource.
+     * Convert the optimized resource to its string representation.
      */
     public function __toString(): string
     {
@@ -79,7 +75,13 @@ abstract class AbstractResource
      */
     public function getUrl(): string
     {
-        return sprintf('https://%s/%s/%s', $this->domain, implode('/', $this->properties), ltrim($this->getSource(), '/'));
+        $url = sprintf('https://%s', trim($this->domain, '/'));
+
+        if (!empty($this->properties)) {
+            $url .= sprintf('/%s', implode('/', $this->properties));
+        }
+
+        return sprintf('%s/%s', $url, ltrim($this->getSource(), '/'));
     }
 
     /**

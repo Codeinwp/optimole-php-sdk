@@ -22,3 +22,26 @@ jobs:
         run: vendor/bin/phpstan analyze
       - name: Run PHP CS Fixer
         run: vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff
+  php-unit-test:
+    name: Run PHP unit tests on PHP ${{ matrix.php }} ${{ matrix.dependency-version }}
+    runs-on: ubuntu-latest
+    needs: code-quality
+    strategy:
+      fail-fast: false
+      matrix:
+        dependency-version: [ '' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        include:
+          - dependency-version: '--prefer-lowest'
+            php: '7.4'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - name: Install dependencies
+        run: composer update ${{ matrix.dependency-version }} --no-ansi --no-interaction --no-scripts --no-suggest --prefer-dist
+      - name: Run unit tests
+        run: vendor/bin/phpunit --testsuite unit
