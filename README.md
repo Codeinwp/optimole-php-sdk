@@ -19,7 +19,7 @@ $ composer require codeinwp/optimole-sdk
 ## Usage
 
 To begin, you need to create an account on [Optimole][1] and get your API key. You can then initialize the SDK with your 
-API key using the SDK facade:
+API key using the `Optimole` facade:
 
 ```php
 use Codeinwp\Optimole\Optimole;
@@ -27,7 +27,7 @@ use Codeinwp\Optimole\Optimole;
 Optimole::init('your-api-key');
 ```
 
-The `Optimole` is your starting point for creating optimized images or other assets. You can control the optimization 
+The `Optimole` facade is your starting point for creating optimized images or other assets. You can control the optimization 
 properties using the fluent interface provided by the SDK. Here's an example of how to optimize an image by changing its
 quality and cropping it:
 
