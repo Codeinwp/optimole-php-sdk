@@ -22,7 +22,7 @@ To begin, you need to create an account on [Optimole][1] and get your API key. Y
 API key using the `Optimole` facade:
 
 ```php
-use Codeinwp\Optimole\Optimole;
+use Optimole\Sdk\Optimole;
 
 Optimole::init('your-api-key');
 ```
@@ -32,7 +32,7 @@ properties using the fluent interface provided by the SDK. Here's an example of 
 quality and cropping it:
 
 ```php
-use Codeinwp\Optimole\Optimole;
+use Optimole\Sdk\Optimole;
 
 $image = Optimole::image('https://example.com/image.jpg')->quality(80)->resize('crop');
 ```
