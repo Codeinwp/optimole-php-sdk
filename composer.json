@@ -11,8 +11,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/Codeinwp/optimole-sdk/issues",
-        "source": "https://github.com/Codeinwp/optimole-sdk"
+        "issues": "https://github.com/Codeinwp/codeinwp/optimole-php-sdk/issues",
+        "source": "https://github.com/Codeinwp/optimole-php-sdk"
     },
     "require": {
         "php": ">=7.4",
