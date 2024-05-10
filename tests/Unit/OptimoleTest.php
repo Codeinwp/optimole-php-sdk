@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Tests\Unit;
 
+use Optimole\Sdk\Exception\BadMethodCallException;
+use Optimole\Sdk\Exception\RuntimeException;
 use Optimole\Sdk\Optimole;
 use Optimole\Sdk\Resource\Asset;
 use Optimole\Sdk\Resource\Image;
@@ -102,7 +104,7 @@ class OptimoleTest extends TestCase
 
     public function testThrowsExceptionIfMethodDoesNotExist(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('No factory method for "foo" exists.');
 
         Optimole::init('key');
@@ -111,7 +113,7 @@ class OptimoleTest extends TestCase
 
     public function testThrowsExceptionIfNotInitialized(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Please initialize the Optimole SDK first.');
 
         Optimole::asset('https://example.com/image.jpg');

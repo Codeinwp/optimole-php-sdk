@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\PropertyInterface;
 
 class QualityProperty implements PropertyInterface
@@ -33,9 +34,9 @@ class QualityProperty implements PropertyInterface
     public function __construct($quality = 'mauto')
     {
         if (!is_string($quality) && !is_int($quality)) {
-            throw new \InvalidArgumentException('Image quality must be a string or an integer.');
+            throw new InvalidArgumentException('Image quality must be a string or an integer.');
         } elseif (is_string($quality) && !in_array($quality, self::ALLOWED_QUALITY)) {
-            throw new \InvalidArgumentException('Image quality must be "auto", "eco" or "mauto".');
+            throw new InvalidArgumentException('Image quality must be "auto", "eco" or "mauto".');
         } elseif (is_int($quality)) {
             $quality = max(0, min(100, $quality));
         }

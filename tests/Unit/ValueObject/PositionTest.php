@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Tests\Unit\ValueObject;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\ValueObject\Position;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +21,7 @@ class PositionTest extends TestCase
 {
     public function testConstructorWithInvalidPosition(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Position "foo" is invalid.');
 
         new Position('foo');

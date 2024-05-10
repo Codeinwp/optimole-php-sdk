@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Tests\Unit\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\ImageProperty\QualityProperty;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +30,7 @@ class QualityPropertyTest extends TestCase
 
     public function testConstructorWithInvalidQualityString(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image quality must be "auto", "eco" or "mauto".');
 
         new QualityProperty('foo');
@@ -37,7 +38,7 @@ class QualityPropertyTest extends TestCase
 
     public function testConstructorWithInvalidQualityType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image quality must be a string or an integer.');
 
         new QualityProperty([]);

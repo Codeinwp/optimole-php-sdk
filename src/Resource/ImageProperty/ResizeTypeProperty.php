@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\PropertyInterface;
 
 class ResizeTypeProperty implements PropertyInterface
@@ -48,7 +49,7 @@ class ResizeTypeProperty implements PropertyInterface
     public function __construct(string $type)
     {
         if (!in_array($type, self::ALLOWED_TYPES)) {
-            throw new \InvalidArgumentException('Image resize type must be "crop", "fill" or "fit".');
+            throw new InvalidArgumentException('Image resize type must be "crop", "fill" or "fit".');
         }
 
         $this->type = $type;

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Tests\Unit\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\ImageProperty\WatermarkProperty;
 use Optimole\Sdk\ValueObject\Position;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +22,7 @@ class WatermarkPropertyTest extends TestCase
 {
     public function testConstructorWithInvalidPositionString(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Position "foo" is invalid.');
 
         new WatermarkProperty(1, 0.5, 'foo');
@@ -29,7 +30,7 @@ class WatermarkPropertyTest extends TestCase
 
     public function testConstructorWithInvalidPositionType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Watermark position must be a string or an instance of Position.');
 
         new WatermarkProperty(1, 0.5, 1);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Tests\Unit\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\ImageProperty\WidthProperty;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +21,7 @@ class WidthPropertyTest extends TestCase
 {
     public function testConstructorWithInvalidWidth(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image width must be "auto" or an integer.');
 
         new WidthProperty('foo');

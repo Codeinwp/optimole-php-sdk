@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\PropertyInterface;
 
 class WidthProperty implements PropertyInterface
@@ -28,7 +29,7 @@ class WidthProperty implements PropertyInterface
     public function __construct($width)
     {
         if ('auto' !== $width && !is_int($width)) {
-            throw new \InvalidArgumentException('Image width must be "auto" or an integer.');
+            throw new InvalidArgumentException('Image width must be "auto" or an integer.');
         } elseif (is_int($width) && $width < 0) {
             $width = 0;
         }

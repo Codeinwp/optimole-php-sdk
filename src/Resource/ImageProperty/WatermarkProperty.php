@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\PropertyInterface;
 use Optimole\Sdk\ValueObject\Position;
 
@@ -54,7 +55,7 @@ class WatermarkProperty implements PropertyInterface
     public function __construct(int $id, float $opacity, $position, float $offsetX = 0, float $offsetY = 0, float $scale = 0)
     {
         if (!is_string($position) && !$position instanceof Position) {
-            throw new \InvalidArgumentException('Watermark position must be a string or an instance of Position.');
+            throw new InvalidArgumentException('Watermark position must be a string or an instance of Position.');
         } elseif (is_string($position)) {
             $position = new Position($position);
         }

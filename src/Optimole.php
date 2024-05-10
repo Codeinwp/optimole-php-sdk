@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk;
 
+use Optimole\Sdk\Exception\BadMethodCallException;
+use Optimole\Sdk\Exception\RuntimeException;
 use Optimole\Sdk\Resource\Asset;
 use Optimole\Sdk\Resource\Image;
 
@@ -54,9 +56,9 @@ final class Optimole
         $method = sprintf('create%s', ucfirst($name));
 
         if (!self::$instance instanceof self) {
-            throw new \RuntimeException('Please initialize the Optimole SDK first.');
+            throw new RuntimeException('Please initialize the Optimole SDK first.');
         } elseif (!method_exists(self::class, $method)) {
-            throw new \BadMethodCallException(sprintf('No factory method for "%s" exists.', $name));
+            throw new BadMethodCallException(sprintf('No factory method for "%s" exists.', $name));
         }
 
         return self::$instance->$method(...$arguments);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Tests\Unit\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\ImageProperty\HeightProperty;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +21,7 @@ class HeightPropertyTest extends TestCase
 {
     public function testConstructorWithInvalidHeight(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image height must be "auto" or an integer.');
 
         new HeightProperty('foo');

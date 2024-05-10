@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\PropertyInterface;
 use Optimole\Sdk\ValueObject\Position;
 
@@ -49,9 +50,9 @@ class GravityProperty implements PropertyInterface
     public function __construct($gravity)
     {
         if (!is_string($gravity) && !is_array($gravity) && !$gravity instanceof Position) {
-            throw new \InvalidArgumentException('Image gravity must be a string, an array or an instance of Position.');
+            throw new InvalidArgumentException('Image gravity must be a string, an array or an instance of Position.');
         } elseif (is_array($gravity) && !isset($gravity[0], $gravity[1])) {
-            throw new \InvalidArgumentException('Focus point image gravity must be an array with two elements.');
+            throw new InvalidArgumentException('Focus point image gravity must be an array with two elements.');
         }
 
         if (is_string($gravity) && self::SMART !== $gravity) {

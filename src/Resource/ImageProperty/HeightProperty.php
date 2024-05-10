@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\PropertyInterface;
 
 class HeightProperty implements PropertyInterface
@@ -28,7 +29,7 @@ class HeightProperty implements PropertyInterface
     public function __construct($height)
     {
         if ('auto' !== $height && !is_int($height)) {
-            throw new \InvalidArgumentException('Image height must be "auto" or an integer.');
+            throw new InvalidArgumentException('Image height must be "auto" or an integer.');
         } elseif (is_int($height) && $height < 0) {
             $height = 0;
         }

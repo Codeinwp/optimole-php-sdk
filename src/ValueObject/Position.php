@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\ValueObject;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
+
 final class Position
 {
     /**
@@ -71,7 +73,7 @@ final class Position
     public function __construct(string $position)
     {
         if (!self::isValid($position)) {
-            throw new \InvalidArgumentException(sprintf('Position "%s" is invalid.', $position));
+            throw new InvalidArgumentException(sprintf('Position "%s" is invalid.', $position));
         }
 
         $this->position = $position;

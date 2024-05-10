@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk\Tests\Unit\Resource\ImageProperty;
 
+use Optimole\Sdk\Exception\InvalidArgumentException;
 use Optimole\Sdk\Resource\ImageProperty\ResizeTypeProperty;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +30,7 @@ class ResizeTypePropertyTest extends TestCase
 
     public function testConstructorWithInvalidResizeType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image resize type must be "crop", "fill" or "fit".');
 
         new ResizeTypeProperty('foo');
