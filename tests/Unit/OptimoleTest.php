@@ -15,6 +15,7 @@ namespace Optimole\Sdk\Tests\Unit;
 
 use Optimole\Sdk\Exception\BadMethodCallException;
 use Optimole\Sdk\Exception\RuntimeException;
+use Optimole\Sdk\Offload\Manager;
 use Optimole\Sdk\Optimole;
 use Optimole\Sdk\Resource\Asset;
 use Optimole\Sdk\Resource\Image;
@@ -100,6 +101,47 @@ class OptimoleTest extends TestCase
         Optimole::init('key', ['domain' => 'foo']);
 
         $this->assertSame('https://foo/https://example.com/image.jpg', (string) Optimole::image('https://example.com/image.jpg'));
+    }
+
+    public function testOffloadReturnsOffloadManagerObject(): void
+    {
+        Optimole::init('key');
+
+        $this->assertInstanceOf(Manager::class, Optimole::offload());
+    }
+
+    public function testOffloadUsesDashboardApiOption(): void
+    {
+        Optimole::init('key', [
+            'dashboard_api_url' => 'dashboard_api_url',
+        ]);
+
+        $manager = Optimole::offload();
+
+        $optionsProperty = (new \ReflectionObject($manager))->getProperty('options');
+        $optionsProperty->setAccessible(true);
+
+        $options = $optionsProperty->getValue($manager);
+
+        $this->assertArrayHasKey('dashboard_api_url', $options);
+        $this->assertSame('dashboard_api_url', $options['dashboard_api_url']);
+    }
+
+    public function testOffloadUsesUploadApiOption(): void
+    {
+        Optimole::init('key', [
+            'upload_api_url' => 'upload_api_url',
+        ]);
+
+        $manager = Optimole::offload();
+
+        $optionsProperty = (new \ReflectionObject($manager))->getProperty('options');
+        $optionsProperty->setAccessible(true);
+
+        $options = $optionsProperty->getValue($manager);
+
+        $this->assertArrayHasKey('upload_api_url', $options);
+        $this->assertSame('upload_api_url', $options['upload_api_url']);
     }
 
     public function testThrowsExceptionIfMethodDoesNotExist(): void

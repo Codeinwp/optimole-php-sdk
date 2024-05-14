@@ -13,17 +13,38 @@ declare(strict_types=1);
 
 namespace Optimole\Sdk;
 
+use GuzzleHttp\Client;
 use Optimole\Sdk\Exception\BadMethodCallException;
 use Optimole\Sdk\Exception\RuntimeException;
+use Optimole\Sdk\Http\ClientInterface;
+use Optimole\Sdk\Http\GuzzleClient;
+use Optimole\Sdk\Http\WordPressClient;
+use Optimole\Sdk\Offload\Manager;
 use Optimole\Sdk\Resource\Asset;
 use Optimole\Sdk\Resource\Image;
 
 /**
- * @method static Asset asset(string $assetUrl, string $cacheBuster = '')
- * @method static Image image(string $imageUrl, string $cacheBuster = '')
+ * @method static Asset   asset(string $assetUrl, string $cacheBuster = '')
+ * @method static Image   image(string $imageUrl, string $cacheBuster = '')
+ * @method static Manager offload()
  */
 final class Optimole
 {
+    /**
+     * The Optimole SDK version.
+     */
+    public const VERSION = '1.0.0';
+
+    /**
+     * The Optimole dashboard API URL.
+     */
+    private const DASHBOARD_API_URL = 'https://dashboard.optimole.com/api';
+
+    /**
+     * The Optimole upload API URL.
+     */
+    private const UPLOAD_API_URL = 'https://generateurls-prod.i.optimole.com/upload';
+
     /**
      * The Optimole SDK factory.
      */
@@ -73,6 +94,8 @@ final class Optimole
         $options = array_merge([
             'base_domain' => 'i.optimole.com',
             'cache_buster' => '',
+            'dashboard_api_url' => self::DASHBOARD_API_URL,
+            'upload_api_url' => self::UPLOAD_API_URL,
         ], $options);
 
         self::$instance = new self($key, $options);
@@ -95,10 +118,32 @@ final class Optimole
     }
 
     /**
+     * Create an instance of offload manager.
+     */
+    private function createOffload(array $options = []): Manager
+    {
+        return new Manager($this->getHttpClient(), $this->key, array_merge($this->options, $options));
+    }
+
+    /**
      * Get the Optimole domain to use.
      */
     private function getDomain(): string
     {
         return $this->options['domain'] ?? sprintf('%s.%s', $this->key, $this->options['base_domain']);
+    }
+
+    /**
+     * Get the HTTP client available in the environment.
+     */
+    private function getHttpClient(): ClientInterface
+    {
+        if (class_exists(Client::class)) {
+            return new GuzzleClient(new Client());
+        } elseif (function_exists('_wp_http_get_object')) {
+            return new WordPressClient(_wp_http_get_object());
+        }
+
+        throw new RuntimeException('Unable to find a suitable HTTP client for this environment');
     }
 }
