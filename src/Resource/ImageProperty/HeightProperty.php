@@ -30,11 +30,9 @@ class HeightProperty implements PropertyInterface
     {
         if ('auto' !== $height && !is_int($height)) {
             throw new InvalidArgumentException('Image height must be "auto" or an integer.');
-        } elseif (is_int($height) && $height < 0) {
-            $height = 0;
         }
 
-        $this->height = $height;
+        $this->height = is_int($height) ? max(0, $height) : $height;
     }
 
     /**

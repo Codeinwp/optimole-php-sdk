@@ -30,11 +30,9 @@ class WidthProperty implements PropertyInterface
     {
         if ('auto' !== $width && !is_int($width)) {
             throw new InvalidArgumentException('Image width must be "auto" or an integer.');
-        } elseif (is_int($width) && $width < 0) {
-            $width = 0;
         }
 
-        $this->width = $width;
+        $this->width = is_int($width) ? max(0, $width) : $width;
     }
 
     /**
