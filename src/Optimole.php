@@ -33,7 +33,7 @@ final class Optimole
     /**
      * The Optimole SDK version.
      */
-    public const VERSION = '1.1.0';
+    public const VERSION = '1.1.1';
 
     /**
      * The Optimole dashboard API URL.
