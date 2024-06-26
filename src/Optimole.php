@@ -76,7 +76,7 @@ final class Optimole
     {
         $method = sprintf('create%s', ucfirst($name));
 
-        if (!self::$instance instanceof self) {
+        if (!isset(self::$instance)) {
             throw new RuntimeException('Please initialize the Optimole SDK first.');
         } elseif (!method_exists(self::class, $method)) {
             throw new BadMethodCallException(sprintf('No factory method for "%s" exists.', $name));
