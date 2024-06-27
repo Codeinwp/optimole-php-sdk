@@ -103,6 +103,18 @@ class OptimoleTest extends TestCase
         $this->assertSame('https://foo/https://example.com/image.jpg', (string) Optimole::image('https://example.com/image.jpg'));
     }
 
+    public function testInitializedWhenSdkIsInitialized(): void
+    {
+        Optimole::init('key');
+
+        $this->assertTrue(Optimole::initialized());
+    }
+
+    public function testInitializedWhenSdkIsNotInitialized(): void
+    {
+        $this->assertFalse(Optimole::initialized());
+    }
+
     public function testOffloadReturnsOffloadManagerObject(): void
     {
         Optimole::init('key');
