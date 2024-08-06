@@ -35,6 +35,7 @@ The second argument of the `init` method is optional. It allows you to pass opti
  * `base_domain`: The base domain to connect to Optimole's API. Default is `i.optimole.com`.
  * `cache_buster`: A string value that will be appended to the URL of the optimized assets to bust Optimole's cache.
  * `dashboard_api_url`: The URL of the dashboard API. Default is `https://dashboard.optimole.com/api`.
+ * `dashboard_api_key`: The API key to use for the dashboard API.
  * `upload_api_credentials`: An array with the credentials to use for the upload API. The array should contain the keys `userKey` and `secret`. The default is empty and the SDK will use the API key provided in the `init` method to fetch them from the dashboard API.
  * `upload_api_url`: The URL of the upload API. Default is `https://generateurls-prod.i.optimole.com/upload`.
 
