@@ -114,7 +114,7 @@ class Manager
     /**
      * Update the metadata of the image with the given ID.
      */
-    public function updateImageMetadata(string $imageId, int $fileSize = 0, $height = 'auto', $width = 'auto'): void
+    public function updateImageMetadata(string $imageId, int $fileSize = 0, $height = 'auto', $width = 'auto', $originalUrl = ''): void
     {
         if ('auto' !== $height && !is_int($height)) {
             throw new InvalidArgumentException('Image height must be "auto" or an integer.');
@@ -127,6 +127,7 @@ class Manager
             'originalFileSize' => $fileSize,
             'height' => is_int($height) ? max(0, $height) : $height,
             'width' => is_int($width) ? max(0, $width) : $width,
+            'originalUrl' => $originalUrl,
             'updateDynamo' => 'success',
         ]);
     }
@@ -179,7 +180,7 @@ class Manager
         }
 
         try {
-            $this->httpClient->sendRequest('put', $uploadUrl, $image, [
+            $this->httpClient->sendRequest('PUT', $uploadUrl, $image, [
                 'Content-Type' => $fileMimeType,
             ]);
         } catch (BadResponseException $exception) {
@@ -188,7 +189,7 @@ class Manager
 
         $imagesize = getimagesize($filename);
 
-        $this->updateImageMetadata($imageId, filesize($filename) ?: 0, $imagesize && !empty($imagesize[1]) ? $imagesize[1] : 'auto', $imagesize && !empty($imagesize[0]) ? $imagesize[0] : 'auto');
+        $this->updateImageMetadata($imageId, filesize($filename) ?: 0, $imagesize && !empty($imagesize[1]) ? $imagesize[1] : 'auto', $imagesize && !empty($imagesize[0]) ? $imagesize[0] : 'auto', $imageUrl);
 
         return $imageId;
     }
@@ -237,8 +238,8 @@ class Manager
      */
     private function requestToDashboardApi(): array
     {
-        return $this->httpClient->sendRequest('post', sprintf('%s/optml/v2/account/details', $this->options['dashboard_api_url']), null, [
-            'Authorization' => sprintf('Bearer %s', $this->key),
+        return $this->httpClient->sendRequest('POST', sprintf('%s/optml/v2/account/details', $this->options['dashboard_api_url']), null, [
+            'Authorization' => sprintf('Bearer %s', $this->options['dashboard_api_key']),
             'Content-Type' => 'application/json',
         ]);
     }
@@ -252,7 +253,7 @@ class Manager
             $this->options['upload_api_credentials'] = $this->getUploadApiCredentialsFromDashboardApi();
         }
 
-        return $this->httpClient->sendRequest('post', $this->options['upload_api_url'], array_merge($this->options['upload_api_credentials'], $body), [
+        return $this->httpClient->sendRequest('POST', $this->options['upload_api_url'], array_merge($this->options['upload_api_credentials'], $body), [
             'Content-Type' => 'application/json',
         ]);
     }

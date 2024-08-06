@@ -33,7 +33,7 @@ final class Optimole
     /**
      * The Optimole SDK version.
      */
-    public const VERSION = '1.2.0';
+    public const VERSION = '1.2.1';
 
     /**
      * The Optimole dashboard API URL.
@@ -94,6 +94,7 @@ final class Optimole
         $options = array_merge([
             'base_domain' => 'i.optimole.com',
             'cache_buster' => '',
+            'dashboard_api_key' => '',
             'dashboard_api_url' => self::DASHBOARD_API_URL,
             'upload_api_url' => self::UPLOAD_API_URL,
         ], $options);
