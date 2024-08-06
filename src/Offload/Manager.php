@@ -31,7 +31,6 @@ class Manager
      */
     private ClientInterface $httpClient;
 
-
     /**
      * The manager options.
      */
