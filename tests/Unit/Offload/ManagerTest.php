@@ -31,7 +31,7 @@ class ManagerTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing "dashboard_api_url" option');
 
-        new Manager($this->createMock(ClientInterface::class), 'optimole_key', ['upload_api_url' => 'https://upload_api_url']);
+        new Manager($this->createMock(ClientInterface::class), ['upload_api_url' => 'https://upload_api_url']);
     }
 
     public function testConstructorWithMissingUploadApiOption()
@@ -39,7 +39,7 @@ class ManagerTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing "upload_api_url" option');
 
-        new Manager($this->createMock(ClientInterface::class), 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url']);
+        new Manager($this->createMock(ClientInterface::class), ['dashboard_api_url' => 'https://dashboard_api_url']);
     }
 
     public function testDeleteImage()
@@ -50,11 +50,11 @@ class ManagerTest extends TestCase
                    ->willReturnCallback(function (...$args) {
                        static $expected = [
                            [
-                               ['post', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
+                               ['POST', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
                                ['data' => ['cdn_key' => 'cdn_key', 'cdn_secret' => 'cdn_secret']],
                            ],
                            [
-                               ['post', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'deleteUrl' => 'true'], ['Content-Type' => 'application/json']],
+                               ['POST', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'deleteUrl' => 'true'], ['Content-Type' => 'application/json']],
                                ['success'],
                            ],
                        ];
@@ -66,7 +66,7 @@ class ManagerTest extends TestCase
                        return $return;
                    });
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
     }
 
     public function testDeleteImageWithBadResponseException()
@@ -77,11 +77,11 @@ class ManagerTest extends TestCase
                    ->willReturnCallback(function (...$args) {
                        static $expected = [
                            [
-                               ['post', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
+                               ['POST', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
                                ['data' => ['cdn_key' => 'cdn_key', 'cdn_secret' => 'cdn_secret']],
                            ],
                            [
-                               ['post', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'deleteUrl' => 'true'], ['Content-Type' => 'application/json']],
+                               ['POST', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'deleteUrl' => 'true'], ['Content-Type' => 'application/json']],
                                BadResponseException::class,
                            ],
                        ];
@@ -97,7 +97,7 @@ class ManagerTest extends TestCase
                        return $return;
                    });
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
     }
 
     public function testDeleteImageWithNonBadResponseException()
@@ -110,11 +110,11 @@ class ManagerTest extends TestCase
                    ->willReturnCallback(function (...$args) {
                        static $expected = [
                            [
-                               ['post', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
+                               ['POST', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
                                ['data' => ['cdn_key' => 'cdn_key', 'cdn_secret' => 'cdn_secret']],
                            ],
                            [
-                               ['post', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'deleteUrl' => 'true'], ['Content-Type' => 'application/json']],
+                               ['POST', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'deleteUrl' => 'true'], ['Content-Type' => 'application/json']],
                                \RuntimeException::class,
                            ],
                        ];
@@ -130,7 +130,7 @@ class ManagerTest extends TestCase
                        return $return;
                    });
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
     }
 
     public function testGetImageUrl()
@@ -141,11 +141,11 @@ class ManagerTest extends TestCase
                    ->willReturnCallback(function (...$args) {
                        static $expected = [
                            [
-                               ['post', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
+                               ['POST', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
                                ['data' => ['cdn_key' => 'cdn_key', 'cdn_secret' => 'cdn_secret']],
                            ],
                            [
-                               ['post', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'getUrl' => 'true'], ['Content-Type' => 'application/json']],
+                               ['POST', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'getUrl' => 'true'], ['Content-Type' => 'application/json']],
                                ['getUrl' => 'https://cdn.optimole.com/image_id'],
                            ],
                        ];
@@ -157,7 +157,7 @@ class ManagerTest extends TestCase
                        return $return;
                    });
 
-        $this->assertSame('https://cdn.optimole.com/image_id', (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id'));
+        $this->assertSame('https://cdn.optimole.com/image_id', (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id'));
     }
 
     public function testGetImageUrlReturnNullWithBadResponseException()
@@ -168,11 +168,11 @@ class ManagerTest extends TestCase
                    ->willReturnCallback(function (...$args) {
                        static $expected = [
                            [
-                               ['post', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
+                               ['POST', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
                                ['data' => ['cdn_key' => 'cdn_key', 'cdn_secret' => 'cdn_secret']],
                            ],
                            [
-                               ['post', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'getUrl' => 'true'], ['Content-Type' => 'application/json']],
+                               ['POST', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'getUrl' => 'true'], ['Content-Type' => 'application/json']],
                                BadResponseException::class,
                            ],
                        ];
@@ -188,7 +188,7 @@ class ManagerTest extends TestCase
                        return $return;
                    });
 
-        $this->assertNull((new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id'));
+        $this->assertNull((new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id'));
     }
 
     public function testGetImageUrlWithMissingGetUrlKey()
@@ -202,11 +202,11 @@ class ManagerTest extends TestCase
                    ->willReturnCallback(function (...$args) {
                        static $expected = [
                            [
-                               ['post', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
+                               ['POST', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
                                ['data' => ['cdn_key' => 'cdn_key', 'cdn_secret' => 'cdn_secret']],
                            ],
                            [
-                               ['post', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'getUrl' => 'true'], ['Content-Type' => 'application/json']],
+                               ['POST', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'getUrl' => 'true'], ['Content-Type' => 'application/json']],
                                [],
                            ],
                        ];
@@ -218,7 +218,7 @@ class ManagerTest extends TestCase
                        return $return;
                    });
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id');
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id');
     }
 
     public function testGetUsage()
@@ -226,10 +226,10 @@ class ManagerTest extends TestCase
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->once())
                    ->method('sendRequest')
-                   ->with($this->identicalTo('post'), $this->identicalTo('https://dashboard_api_url/optml/v2/account/details'), $this->identicalTo(null), $this->identicalTo(['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']))
+                   ->with($this->identicalTo('POST'), $this->identicalTo('https://dashboard_api_url/optml/v2/account/details'), $this->identicalTo(null), $this->identicalTo(['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']))
                    ->willReturn(['data' => ['offload_limit' => 5000, 'offloaded_images' => 42]]);
 
-        $usage = (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
+        $usage = (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
 
         $this->assertSame(42, $usage->getCurrent());
         $this->assertSame(5000, $usage->getLimit());
@@ -243,10 +243,10 @@ class ManagerTest extends TestCase
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->once())
                    ->method('sendRequest')
-                   ->with($this->identicalTo('post'), $this->identicalTo('https://dashboard_api_url/optml/v2/account/details'), $this->identicalTo(null), $this->identicalTo(['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']))
+                   ->with($this->identicalTo('POST'), $this->identicalTo('https://dashboard_api_url/optml/v2/account/details'), $this->identicalTo(null), $this->identicalTo(['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']))
                    ->willReturn(['data' => ['offload_limit' => 5000]]);
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
     }
 
     public function testGetUsageWithMissingOffloadLimit()
@@ -257,10 +257,10 @@ class ManagerTest extends TestCase
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->once())
                    ->method('sendRequest')
-                   ->with($this->identicalTo('post'), $this->identicalTo('https://dashboard_api_url/optml/v2/account/details'), $this->identicalTo(null), $this->identicalTo(['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']))
+                   ->with($this->identicalTo('POST'), $this->identicalTo('https://dashboard_api_url/optml/v2/account/details'), $this->identicalTo(null), $this->identicalTo(['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']))
                    ->willReturn(['data' => ['offloaded_images' => 42]]);
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
     }
 
     public function testUpdateImageMetadata()
@@ -271,11 +271,11 @@ class ManagerTest extends TestCase
                    ->willReturnCallback(function (...$args) {
                        static $expected = [
                            [
-                               ['post', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
+                               ['POST', 'https://dashboard_api_url/optml/v2/account/details', null, ['Authorization' => 'Bearer optimole_key', 'Content-Type' => 'application/json']],
                                ['data' => ['cdn_key' => 'cdn_key', 'cdn_secret' => 'cdn_secret']],
                            ],
                            [
-                               ['post', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'originalFileSize' => 42, 'height' => 100, 'width' => 200, 'updateDynamo' => 'success'], ['Content-Type' => 'application/json']],
+                               ['POST', 'https://upload_api_url', ['userKey' => 'cdn_key', 'secret' => 'cdn_secret', 'id' => 'image_id', 'originalFileSize' => 42, 'height' => 100, 'width' => 200, 'originalUrl'=>'originurl', 'updateDynamo' => 'success'], ['Content-Type' => 'application/json']],
                                ['success'],
                            ],
                        ];
@@ -287,7 +287,7 @@ class ManagerTest extends TestCase
                        return $return;
                    });
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, 100, 200);
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key'=>'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, 100, 200,'originurl');
     }
 
     public function testUpdateImageMetadataWithInvalidImageHeight()
@@ -295,7 +295,7 @@ class ManagerTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image height must be "auto" or an integer.');
 
-        (new Manager($this->createMock(ClientInterface::class), 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, '', 200);
+        (new Manager($this->createMock(ClientInterface::class), ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, '', 200);
     }
 
     public function testUpdateImageMetadataWithInvalidImageWidth()
@@ -303,7 +303,7 @@ class ManagerTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image width must be "auto" or an integer.');
 
-        (new Manager($this->createMock(ClientInterface::class), 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, 100, '');
+        (new Manager($this->createMock(ClientInterface::class), ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, 100, '');
     }
 
     public function testUploadImageWhenFileDoesntExist()
@@ -313,7 +313,7 @@ class ManagerTest extends TestCase
 
         $httpClient = $this->createMock(ClientInterface::class);
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->uploadImage('non_existent_file', 'image_url');
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->uploadImage('non_existent_file', 'image_url');
     }
 
     /**
@@ -331,6 +331,6 @@ class ManagerTest extends TestCase
                     ->with($this->identicalTo('non_readable_file'))
                     ->willReturn(true);
 
-        (new Manager($httpClient, 'optimole_key', ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->uploadImage('non_readable_file', 'image_url');
+        (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->uploadImage('non_readable_file', 'image_url');
     }
 }

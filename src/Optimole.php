@@ -131,7 +131,7 @@ final class Optimole
      */
     private function createOffload(array $options = []): Manager
     {
-        return new Manager($this->getHttpClient(), $this->key, array_merge($this->options, $options));
+        return new Manager($this->getHttpClient(), array_merge($this->options, $options));
     }
 
     /**

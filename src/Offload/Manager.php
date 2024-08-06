@@ -31,10 +31,6 @@ class Manager
      */
     private ClientInterface $httpClient;
 
-    /**
-     * The Optimole API key.
-     */
-    private string $key;
 
     /**
      * The manager options.
@@ -44,7 +40,7 @@ class Manager
     /**
      * Constructor.
      */
-    public function __construct(ClientInterface $httpClient, string $key, array $options = [])
+    public function __construct(ClientInterface $httpClient, array $options = [])
     {
         if (empty($options['dashboard_api_url'])) {
             throw new InvalidArgumentException('Missing "dashboard_api_url" option');
@@ -53,7 +49,6 @@ class Manager
         }
 
         $this->httpClient = $httpClient;
-        $this->key = $key;
         $this->options = array_merge([
             'upload_api_credentials' => [],
         ], $options);
