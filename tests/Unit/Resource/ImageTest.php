@@ -19,6 +19,27 @@ use PHPUnit\Framework\TestCase;
 
 class ImageTest extends TestCase
 {
+    public function testDprAddsDprPropriety(): void
+    {
+        $image = (new Image('domain', 'source'))->dpr(2);
+
+        $this->assertSame('https://domain/dpr:2/source', (string) $image);
+    }
+
+    public function testDprAddsDprProprietyDefault(): void
+    {
+        $image = (new Image('domain', 'source'))->dpr(1);
+
+        $this->assertSame('https://domain/dpr:1/source', (string) $image);
+    }
+
+    public function testDprAddsDprProprietyHigh(): void
+    {
+        $image = (new Image('domain', 'source'))->dpr(10);
+
+        $this->assertSame('https://domain/dpr:5/source', (string) $image);
+    }
+
     public function testFormatAddsFormatProperty(): void
     {
         $image = (new Image('domain', 'source'))->format('webp');
