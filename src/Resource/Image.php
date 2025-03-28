@@ -18,6 +18,16 @@ use Optimole\Sdk\ValueObject\Position;
 class Image extends AbstractResource
 {
     /**
+     * Set the dpr of the optimized image.
+     */
+    public function dpr($dpr = 1): self
+    {
+        $this->addProperty(new ImageProperty\DprProperty($dpr));
+
+        return $this;
+    }
+
+    /**
      * Convert the optimized image to the given format.
      */
     public function format(string $format): self
