@@ -102,6 +102,14 @@ class Image extends AbstractResource
         return $this;
     }
 
+	/**
+	 * Set the smart focus gravity of the optimized image.
+	 */
+	public function smartFocus(){
+		$this->addProperty(new ImageProperty\GravityProperty('sm'));
+		return $this;
+	}
+    
     /**
      * Apply a watermark to the optimized image.
      */
