@@ -158,7 +158,7 @@ class Manager
         }
 
         $imageId = (string) $response['tableId'];
-        $uploadUrl = (string) $response['uploadUrl']; 
+        $uploadUrl = (string) $response['uploadUrl'];
 
         $image = file_get_contents($filename);
 
