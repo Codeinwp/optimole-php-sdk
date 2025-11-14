@@ -5,10 +5,6 @@ jobs:
   code-quality:
     name: Run code quality checks on PHP 7.4
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        dependency-version: ['', '--prefer-lowest']
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -17,7 +13,7 @@ jobs:
         with:
           php-version: '7.4'
       - name: Install dependencies
-        run: composer update ${{ matrix.dependency-version }} --no-ansi --no-interaction --no-scripts --no-suggest --prefer-dist
+        run: composer install
       - name: Run PHPStan
         run: vendor/bin/phpstan analyze
       - name: Run PHP CS Fixer
