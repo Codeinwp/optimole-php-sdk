@@ -158,14 +158,7 @@ class Manager
         }
 
         $imageId = (string) $response['tableId'];
-        $uploadUrl = (string) $response['uploadUrl'];
-        $uploadUrlMimeType = preg_match('/Content-Type=([^&]*)/', urldecode($uploadUrl), $matches) ? $matches[1] : null;
-
-        if (!is_string($uploadUrlMimeType)) {
-            throw new RuntimeException('Unable to parse content type from upload URL');
-        } elseif (strtolower($fileMimeType) !== strtolower($uploadUrlMimeType)) {
-            throw new RuntimeException(sprintf('File "%s" MIME type "%s" does not match upload URL MIME type "%s"', $filename, $fileMimeType, $uploadUrlMimeType));
-        }
+        $uploadUrl = (string) $response['uploadUrl']; 
 
         $image = file_get_contents($filename);
 
