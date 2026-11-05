@@ -19,19 +19,24 @@ use PHPUnit\Framework\TestCase;
 
 class ResizeTypePropertyTest extends TestCase
 {
+    /**
+     * The resize types the CDN accepts.
+     */
     public function provideResizeTypes(): array
     {
         return [
-            [ResizeTypeProperty::CROP],
-            [ResizeTypeProperty::FILL],
-            [ResizeTypeProperty::FIT],
+            'fit' => [ResizeTypeProperty::FIT, 'rt:fit'],
+            'fill' => [ResizeTypeProperty::FILL, 'rt:fill'],
+            'fill-down' => [ResizeTypeProperty::FILL_DOWN, 'rt:fill-down'],
+            'force' => [ResizeTypeProperty::FORCE, 'rt:force'],
+            'auto' => [ResizeTypeProperty::AUTO, 'rt:auto'],
         ];
     }
 
     public function testConstructorWithInvalidResizeType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Image resize type must be "crop", "fill" or "fit".');
+        $this->expectExceptionMessage('Image resize type must be "fit", "fill", "fill-down", "force" or "auto".');
 
         new ResizeTypeProperty('foo');
     }
@@ -39,8 +44,36 @@ class ResizeTypePropertyTest extends TestCase
     /**
      * @dataProvider provideResizeTypes
      */
-    public function testConstructorWithResizeType(string $resizeType): void
+    public function testConstructorWithResizeType(string $resizeType, string $expected): void
     {
-        $this->assertSame(sprintf('rt:%s', $resizeType), (string) (new ResizeTypeProperty($resizeType)));
+        $this->assertSame($expected, (string) (new ResizeTypeProperty($resizeType)));
+    }
+
+    public function testCropResizeTypeIsSentAsFill(): void
+    {
+        $this->assertSame('rt:fill', (string) (new ResizeTypeProperty(ResizeTypeProperty::CROP)));
+    }
+
+    public function testCropResizeTypeTriggersDeprecation(): void
+    {
+        $deprecations = [];
+
+        set_error_handler(static function (int $level, string $message) use (&$deprecations): bool {
+            if (E_USER_DEPRECATED !== $level) {
+                return false;
+            }
+
+            $deprecations[] = $message;
+
+            return true;
+        });
+
+        try {
+            new ResizeTypeProperty('crop');
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame(['The "crop" image resize type is deprecated and is sent as "fill". Use "fill" instead.'], $deprecations);
     }
 }

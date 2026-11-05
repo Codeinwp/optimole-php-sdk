@@ -20,6 +20,16 @@ use PHPUnit\Framework\TestCase;
 
 class GravityPropertyTest extends TestCase
 {
+    public function provideCornerPositions(): array
+    {
+        return [
+            'top right' => [Position::NORTH_EAST, 'g:noea'],
+            'top left' => [Position::NORTH_WEST, 'g:nowe'],
+            'bottom right' => [Position::SOUTH_EAST, 'g:soea'],
+            'bottom left' => [Position::SOUTH_WEST, 'g:sowe'],
+        ];
+    }
+
     public function testConstructorWithInvalidFocusPointArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -42,6 +52,15 @@ class GravityPropertyTest extends TestCase
         $this->expectExceptionMessage('Image gravity must be a string, an array or an instance of Position.');
 
         new GravityProperty(true);
+    }
+
+    /**
+     * @dataProvider provideCornerPositions
+     */
+    public function testWithCornerPosition(string $position, string $expected): void
+    {
+        $this->assertSame($expected, (string) (new GravityProperty($position)));
+        $this->assertSame($expected, (string) (new GravityProperty(new Position($position))));
     }
 
     public function testWithFocusPointArray(): void

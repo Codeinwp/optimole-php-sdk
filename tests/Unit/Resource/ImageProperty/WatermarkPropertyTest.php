@@ -55,4 +55,10 @@ class WatermarkPropertyTest extends TestCase
     {
         $this->assertSame('wm:42:0.5:ce:42:24:0.4', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, 42, 24, 0.4)));
     }
+
+    public function testWithTopCornerPositions(): void
+    {
+        $this->assertSame('wm:42:0.5:noea', (string) (new WatermarkProperty(42, 0.5, Position::NORTH_EAST)));
+        $this->assertSame('wm:42:0.5:nowe', (string) (new WatermarkProperty(42, 0.5, Position::NORTH_WEST)));
+    }
 }

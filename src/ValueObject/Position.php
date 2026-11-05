@@ -33,14 +33,14 @@ final class Position
     public const NORTH = 'no';
 
     /**
-     * Top left corner.
-     */
-    public const NORTH_EAST = 'nowe';
-
-    /**
      * Top right corner.
      */
-    public const NORTH_WEST = 'noea';
+    public const NORTH_EAST = 'noea';
+
+    /**
+     * Top left corner.
+     */
+    public const NORTH_WEST = 'nowe';
 
     /**
      * Bottom Edge.

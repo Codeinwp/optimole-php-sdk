@@ -27,7 +27,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class GuzzleClientTest extends TestCase
 {
-    public function testSendRequestConvertsGuzzleBadResponseException()
+    public function testSendRequestConvertsGuzzleBadResponseException(): void
     {
         $this->expectException(BadResponseException::class);
 
@@ -40,7 +40,7 @@ class GuzzleClientTest extends TestCase
         (new GuzzleClient($guzzle))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']);
     }
 
-    public function testSendRequestConvertsGuzzleException()
+    public function testSendRequestConvertsGuzzleException(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -53,7 +53,7 @@ class GuzzleClientTest extends TestCase
         (new GuzzleClient($guzzle))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']);
     }
 
-    public function testSendRequestIsSuccessful()
+    public function testSendRequestIsSuccessful(): void
     {
         $guzzle = $this->createMock(ClientInterface::class);
 
@@ -74,7 +74,7 @@ class GuzzleClientTest extends TestCase
         (new GuzzleClient($guzzle))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']);
     }
 
-    public function testSendRequestWithBodyNotStringOrArray()
+    public function testSendRequestWithBodyNotStringOrArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('"body" must be a string or an array');

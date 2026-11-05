@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 class WordPressClientTest extends TestCase
 {
-    public function testSendRequestReturnsJsonDecodedBody()
+    public function testSendRequestReturnsJsonDecodedBody(): void
     {
         $wordpressHttp = $this->createMock(WP_Http::class);
         $wordpressHttp->expects($this->once())
@@ -38,7 +38,7 @@ class WordPressClientTest extends TestCase
         $this->assertSame(['bar' => 'foo'], (new WordPressClient($wordpressHttp))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']));
     }
 
-    public function testSendRequestReturnsNullWithEmptyBody()
+    public function testSendRequestReturnsNullWithEmptyBody(): void
     {
         $wordpressHttp = $this->createMock(WP_Http::class);
         $wordpressHttp->expects($this->once())
@@ -56,7 +56,7 @@ class WordPressClientTest extends TestCase
         $this->assertNull((new WordPressClient($wordpressHttp))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']));
     }
 
-    public function testSendRequestWhenCannotDecodeJsonBody()
+    public function testSendRequestWhenCannotDecodeJsonBody(): void
     {
         $this->expectException(BadResponseException::class);
         $this->expectExceptionMessage('Unable to decode JSON response: State mismatch (invalid or malformed JSON)');
@@ -77,7 +77,7 @@ class WordPressClientTest extends TestCase
         (new WordPressClient($wordpressHttp))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']);
     }
 
-    public function testSendRequestWhenRequestDoesntReturn200StatusCode()
+    public function testSendRequestWhenRequestDoesntReturn200StatusCode(): void
     {
         $this->expectException(BadResponseException::class);
         $this->expectExceptionMessage('Response status code: 400');
@@ -98,7 +98,7 @@ class WordPressClientTest extends TestCase
         (new WordPressClient($wordpressHttp))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']);
     }
 
-    public function testSendRequestWhenRequestReturnsWpErrorObject()
+    public function testSendRequestWhenRequestReturnsWpErrorObject(): void
     {
         $this->expectException(RuntimeException::class);
 
@@ -118,7 +118,7 @@ class WordPressClientTest extends TestCase
         (new WordPressClient($wordpressHttp))->sendRequest('GET', 'https://example.com', ['foo' => 'bar'], ['Content-Type' => 'application/json']);
     }
 
-    public function testSendRequestWithBodyNotStringOrArray()
+    public function testSendRequestWithBodyNotStringOrArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('"body" must be a string or an array');
