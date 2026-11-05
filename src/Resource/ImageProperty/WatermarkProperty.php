@@ -74,24 +74,16 @@ class WatermarkProperty implements PropertyInterface
     public function __toString(): string
     {
         $watermark = sprintf('wm:%s:%s:%s', $this->id, $this->opacity, $this->position);
+        $optionalArguments = [$this->offsetX, $this->offsetY, $this->scale];
 
-        if (empty($this->offsetX)) {
-            return $watermark;
+        // The arguments are positional, so only trailing zeros can be left out.
+        while (!empty($optionalArguments) && empty(end($optionalArguments))) {
+            array_pop($optionalArguments);
         }
 
-        $watermark .= sprintf(':%s', $this->offsetX);
-
-        if (empty($this->offsetY)) {
-            return $watermark;
+        foreach ($optionalArguments as $argument) {
+            $watermark .= sprintf(':%s', $argument);
         }
-
-        $watermark .= sprintf(':%s', $this->offsetY);
-
-        if (empty($this->scale)) {
-            return $watermark;
-        }
-
-        $watermark .= sprintf(':%s', $this->scale);
 
         return $watermark;
     }

@@ -36,6 +36,38 @@ class WatermarkPropertyTest extends TestCase
         new WatermarkProperty(1, 0.5, 1);
     }
 
+    public function testKeepsScaleAfterNegativeXOffsetAndZeroYOffset(): void
+    {
+        $this->assertSame('wm:42:0.5:ce:-10:0:0.4', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, -10, 0, 0.4)));
+    }
+
+    public function testKeepsScaleAfterZeroOffsets(): void
+    {
+        $this->assertSame('wm:42:0.5:soea:0:0:0.4', (string) (new WatermarkProperty(42, 0.5, Position::SOUTH_EAST, 0, 0, 0.4)));
+    }
+
+    public function testKeepsScaleAfterZeroYOffset(): void
+    {
+        $this->assertSame('wm:42:0.5:ce:42:0:0.4', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, 42, 0, 0.4)));
+    }
+
+    public function testKeepsYOffsetAfterZeroXOffset(): void
+    {
+        $this->assertSame('wm:42:0.5:ce:0:24', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, 0, 24)));
+    }
+
+    public function testKeepsYOffsetAndScaleAfterZeroXOffset(): void
+    {
+        $this->assertSame('wm:42:0.5:ce:0:24:0.4', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, 0, 24, 0.4)));
+    }
+
+    public function testTrailingZeroArgumentsAreOmitted(): void
+    {
+        $this->assertSame('wm:42:0.5:ce', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, 0, 0, 0)));
+        $this->assertSame('wm:42:0.5:ce:42', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, 42, 0, 0)));
+        $this->assertSame('wm:42:0.5:ce:0:24', (string) (new WatermarkProperty(42, 0.5, Position::CENTER, 0, 24, 0)));
+    }
+
     public function testWithIdOpacityAndPosition(): void
     {
         $this->assertSame('wm:42:0.5:ce', (string) (new WatermarkProperty(42, 0.5, Position::CENTER)));
