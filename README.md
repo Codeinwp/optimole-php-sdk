@@ -46,8 +46,10 @@ The `Optimole` facade is your starting point for creating optimized images or ot
 ```php
 use Optimole\Sdk\Optimole;
 
-$image = Optimole::image('https://example.com/image.jpg')->quality(80)->resize('crop');
+$image = Optimole::image('https://example.com/image.jpg')->quality(80)->resize('fill');
 ```
+
+The resize types are `fit`, `fill`, `fill-down`, `force` and `auto` (see the `ResizeTypeProperty` constants). The second argument of `resize` is the gravity: a `Position` constant such as `Position::NORTH_EAST` (the top right corner), `GravityProperty::SMART`, or a `[x, y]` focus point.
 
 You can get the optimized image URL using the `getUrl` method or casting the object to a string:
 

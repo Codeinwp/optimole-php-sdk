@@ -77,16 +77,37 @@ class ImageTest extends TestCase
 
     public function testResizeAddsEnlargePropertyWhenEnlargeIsTrue(): void
     {
-        $image = (new Image('domain', 'source'))->resize('crop', Position::CENTER, true);
+        $image = (new Image('domain', 'source'))->resize('fill', Position::CENTER, true);
 
-        $this->assertSame('https://domain/rt:crop/g:ce/el:1/source', (string) $image);
+        $this->assertSame('https://domain/rt:fill/g:ce/el:1/source', (string) $image);
     }
 
     public function testResizeAddsResizeAndGravityProperties(): void
     {
+        $image = (new Image('domain', 'source'))->resize('fill');
+
+        $this->assertSame('https://domain/rt:fill/g:ce/source', (string) $image);
+    }
+
+    public function testResizeTowardsTopRightCorner(): void
+    {
+        $image = (new Image('domain', 'source'))->resize('fill', Position::NORTH_EAST);
+
+        $this->assertSame('https://domain/rt:fill/g:noea/source', (string) $image);
+    }
+
+    public function testResizeWithDeprecatedCropTypeSendsFill(): void
+    {
         $image = (new Image('domain', 'source'))->resize('crop');
 
-        $this->assertSame('https://domain/rt:crop/g:ce/source', (string) $image);
+        $this->assertSame('https://domain/rt:fill/g:ce/source', (string) $image);
+    }
+
+    public function testResizeWithFillDownType(): void
+    {
+        $image = (new Image('domain', 'source'))->resize('fill-down');
+
+        $this->assertSame('https://domain/rt:fill-down/g:ce/source', (string) $image);
     }
 
     public function testStripMetadataAddsStripMetadataProperty(): void
