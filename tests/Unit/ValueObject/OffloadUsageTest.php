@@ -18,12 +18,12 @@ use PHPUnit\Framework\TestCase;
 
 class OffloadUsageTest extends TestCase
 {
-    public function testGetCurrent()
+    public function testGetCurrent(): void
     {
         $this->assertSame(10, (new OffloadUsage(10, 100))->getCurrent());
     }
 
-    public function testGetLimit()
+    public function testGetLimit(): void
     {
         $this->assertSame(100, (new OffloadUsage(10, 100))->getLimit());
     }

@@ -26,7 +26,7 @@ class ManagerTest extends TestCase
 {
     use FunctionMockTrait;
 
-    public function testConstructorWithMissingDashboardApiOption()
+    public function testConstructorWithMissingDashboardApiOption(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing "dashboard_api_url" option');
@@ -34,7 +34,7 @@ class ManagerTest extends TestCase
         new Manager($this->createMock(ClientInterface::class), ['upload_api_url' => 'https://upload_api_url']);
     }
 
-    public function testConstructorWithMissingUploadApiOption()
+    public function testConstructorWithMissingUploadApiOption(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing "upload_api_url" option');
@@ -42,7 +42,7 @@ class ManagerTest extends TestCase
         new Manager($this->createMock(ClientInterface::class), ['dashboard_api_url' => 'https://dashboard_api_url']);
     }
 
-    public function testDeleteImage()
+    public function testDeleteImage(): void
     {
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(2))
@@ -69,7 +69,7 @@ class ManagerTest extends TestCase
         (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
     }
 
-    public function testDeleteImageWithBadResponseException()
+    public function testDeleteImageWithBadResponseException(): void
     {
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(2))
@@ -100,7 +100,7 @@ class ManagerTest extends TestCase
         (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
     }
 
-    public function testDeleteImageWithNonBadResponseException()
+    public function testDeleteImageWithNonBadResponseException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -133,7 +133,7 @@ class ManagerTest extends TestCase
         (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->deleteImage('image_id');
     }
 
-    public function testGetImageUrl()
+    public function testGetImageUrl(): void
     {
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(2))
@@ -160,7 +160,7 @@ class ManagerTest extends TestCase
         $this->assertSame('https://cdn.optimole.com/image_id', (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id'));
     }
 
-    public function testGetImageUrlReturnNullWithBadResponseException()
+    public function testGetImageUrlReturnNullWithBadResponseException(): void
     {
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(2))
@@ -191,7 +191,7 @@ class ManagerTest extends TestCase
         $this->assertNull((new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id'));
     }
 
-    public function testGetImageUrlWithMissingGetUrlKey()
+    public function testGetImageUrlWithMissingGetUrlKey(): void
     {
         $this->expectException(InvalidUploadApiResponseException::class);
         $this->expectExceptionMessage('Unable to get image URL from upload API');
@@ -221,7 +221,7 @@ class ManagerTest extends TestCase
         (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getImageUrl('image_id');
     }
 
-    public function testGetUsage()
+    public function testGetUsage(): void
     {
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->once())
@@ -235,7 +235,7 @@ class ManagerTest extends TestCase
         $this->assertSame(5000, $usage->getLimit());
     }
 
-    public function testGetUsageWithMissingOffloadedImages()
+    public function testGetUsageWithMissingOffloadedImages(): void
     {
         $this->expectException(InvalidDashboardApiResponseException::class);
         $this->expectExceptionMessage('Dashboard API did not return details about the offload service usage');
@@ -249,7 +249,7 @@ class ManagerTest extends TestCase
         (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
     }
 
-    public function testGetUsageWithMissingOffloadLimit()
+    public function testGetUsageWithMissingOffloadLimit(): void
     {
         $this->expectException(InvalidDashboardApiResponseException::class);
         $this->expectExceptionMessage('Dashboard API did not return details about the offload service usage');
@@ -263,7 +263,7 @@ class ManagerTest extends TestCase
         (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->getUsage();
     }
 
-    public function testUpdateImageMetadata()
+    public function testUpdateImageMetadata(): void
     {
         $httpClient = $this->createMock(ClientInterface::class);
         $httpClient->expects($this->exactly(2))
@@ -290,7 +290,7 @@ class ManagerTest extends TestCase
         (new Manager($httpClient, ['dashboard_api_url' => 'https://dashboard_api_url', 'dashboard_api_key' => 'optimole_key', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, 100, 200, 'originurl');
     }
 
-    public function testUpdateImageMetadataWithInvalidImageHeight()
+    public function testUpdateImageMetadataWithInvalidImageHeight(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image height must be "auto" or an integer.');
@@ -298,7 +298,7 @@ class ManagerTest extends TestCase
         (new Manager($this->createMock(ClientInterface::class), ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, '', 200);
     }
 
-    public function testUpdateImageMetadataWithInvalidImageWidth()
+    public function testUpdateImageMetadataWithInvalidImageWidth(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Image width must be "auto" or an integer.');
@@ -306,7 +306,7 @@ class ManagerTest extends TestCase
         (new Manager($this->createMock(ClientInterface::class), ['dashboard_api_url' => 'https://dashboard_api_url', 'upload_api_url' => 'https://upload_api_url']))->updateImageMetadata('image_id', 42, 100, '');
     }
 
-    public function testUploadImageWhenFileDoesntExist()
+    public function testUploadImageWhenFileDoesntExist(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('File "non_existent_file" does not exist');
@@ -319,7 +319,7 @@ class ManagerTest extends TestCase
     /**
      * @runInSeparateProcess
      */
-    public function testUploadImageWhenFileIsntReadable()
+    public function testUploadImageWhenFileIsntReadable(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('File "non_readable_file" is not readable');
